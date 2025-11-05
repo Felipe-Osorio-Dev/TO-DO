@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_task")
@@ -21,12 +21,15 @@ public class TaskEntity {
     private String name;
 
     private String description;
-    private Date endTime;
+    private LocalDate endTime;
 
     @Enumerated(EnumType.STRING)
     private StatusTask status;
 
-    public TaskEntity(Long id, String name, String description, Date endTime, StatusTask status) {
+    public TaskEntity() {
+    }
+
+    public TaskEntity(Long id, String name, String description, LocalDate endTime, StatusTask status) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -58,11 +61,11 @@ public class TaskEntity {
         this.description = description;
     }
 
-    public Date getEndTime() {
+    public LocalDate getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalDate endTime) {
         this.endTime = endTime;
     }
 
