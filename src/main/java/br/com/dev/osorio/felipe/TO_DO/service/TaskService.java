@@ -1,7 +1,8 @@
 package br.com.dev.osorio.felipe.TO_DO.service;
 
-import br.com.dev.osorio.felipe.TO_DO.dto.request.CreateTaskRequest;
-import br.com.dev.osorio.felipe.TO_DO.dto.response.CreateTaskResponse;
+import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
+import br.com.dev.osorio.felipe.TO_DO.dto.request.RegisterRequest;
+import br.com.dev.osorio.felipe.TO_DO.dto.response.RegisterResponse;
 import br.com.dev.osorio.felipe.TO_DO.entity.TaskEntity;
 import br.com.dev.osorio.felipe.TO_DO.mapper.TaskMapper;
 import br.com.dev.osorio.felipe.TO_DO.repository.TaskRepository;
@@ -22,20 +23,34 @@ public class TaskService {
     }
 
     @Transactional
-    public CreateTaskResponse createTask(CreateTaskRequest request) {
+    public RegisterResponse registerTask(RegisterRequest request) {
         var task = taskRepository.saveAndFlush(taskMapper.toTask(request));
 
-        return new CreateTaskResponse(task.getId(), task.getName());
+        return new RegisterResponse(task.getId(), task.getName());
+    }
+
+    @Transactional
+    public RegisterResponse updateTask(Long id, TaskDTO request) {
+        TaskDTO findTask = findTaskById(id);
+        TaskEntity entity = taskMapper.toTask(findTask);
+
+        return registerTask(taskMapper.toRegisterRequest(taskMapper.updateTask(request, entity)));
     }
 
     @Transactional
     public void deleteTask(Long id) {
+        var task = findTaskById(id);
+
+        taskRepository.deleteById(task.id());
+    }
+
+    public TaskDTO findTaskById(Long id) {
         Optional<TaskEntity> task = taskRepository.findById(id);
 
         if (!task.isPresent()) {
             throw new RuntimeException("Task not found");
         }
 
-        taskRepository.deleteById(task.get().getId());
+        return taskMapper.toTaskDTO(task.get());
     }
 }
