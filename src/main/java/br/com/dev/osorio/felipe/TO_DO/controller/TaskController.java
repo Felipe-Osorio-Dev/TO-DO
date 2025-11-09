@@ -1,7 +1,8 @@
 package br.com.dev.osorio.felipe.TO_DO.controller;
 
-import br.com.dev.osorio.felipe.TO_DO.dto.request.CreateTaskRequest;
-import br.com.dev.osorio.felipe.TO_DO.dto.response.CreateTaskResponse;
+import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
+import br.com.dev.osorio.felipe.TO_DO.dto.request.RegisterRequest;
+import br.com.dev.osorio.felipe.TO_DO.dto.response.RegisterResponse;
 import br.com.dev.osorio.felipe.TO_DO.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,26 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    @GetMapping
+    public ResponseEntity<TaskDTO> findTaskById(@RequestParam("id") Long id) {
+        TaskDTO task = taskService.findTaskById(id);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(task);
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<CreateTaskResponse> createTask(@Valid @RequestBody CreateTaskRequest request) {
-        var response = taskService.createTask(request);
+    public ResponseEntity<RegisterResponse> createTask(@Valid @RequestBody RegisterRequest request) {
+        var response = taskService.registerTask(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)
+                .body(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<RegisterResponse> updateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
+        var response = taskService.updateTask(id, request);
+
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }
 
