@@ -33,8 +33,9 @@ public class TaskService {
     public RegisterResponse updateTask(Long id, TaskDTO request) {
         TaskDTO findTask = findTaskById(id);
         TaskEntity entity = taskMapper.toTask(findTask);
+        TaskEntity updateEntity = taskMapper.updateTask(request, entity);
 
-        return registerTask(taskMapper.toRegisterRequest(taskMapper.updateTask(request, entity)));
+        return registerTask(taskMapper.toRegisterRequest(updateEntity));
     }
 
     @Transactional
