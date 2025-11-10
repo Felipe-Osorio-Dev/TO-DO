@@ -35,7 +35,15 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<RegisterResponse> updateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
+    public ResponseEntity<RegisterResponse> partialUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
+        var response = taskService.updateTask(id, request);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RegisterResponse> fullUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
         var response = taskService.updateTask(id, request);
 
         return ResponseEntity.status(HttpStatus.OK)
