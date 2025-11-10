@@ -1,5 +1,7 @@
 package br.com.dev.osorio.felipe.TO_DO.dto;
 
+import br.com.dev.osorio.felipe.TO_DO.util.StatusTask;
+
 import java.time.LocalDate;
 
 public record TaskDTO(
@@ -7,6 +9,6 @@ public record TaskDTO(
         String name,
         String description,
         LocalDate endTime,
-        String status
+        StatusTask status
 ) {
 }
