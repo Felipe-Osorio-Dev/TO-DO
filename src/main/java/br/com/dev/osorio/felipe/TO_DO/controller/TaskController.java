@@ -2,7 +2,9 @@ package br.com.dev.osorio.felipe.TO_DO.controller;
 
 import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
 import br.com.dev.osorio.felipe.TO_DO.dto.request.RegisterRequest;
+import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateTaskRequest;
 import br.com.dev.osorio.felipe.TO_DO.dto.response.RegisterResponse;
+import br.com.dev.osorio.felipe.TO_DO.dto.response.UpdateTaskResponse;
 import br.com.dev.osorio.felipe.TO_DO.entity.TaskEntity;
 import br.com.dev.osorio.felipe.TO_DO.mapper.TaskMapper;
 import br.com.dev.osorio.felipe.TO_DO.service.TaskService;
@@ -23,11 +25,12 @@ public class TaskController {
         this.taskMapper = taskMapper;
     }
 
-    @GetMapping
-    public ResponseEntity<TaskDTO> findTaskById(@RequestParam("id") Long id) {
-        TaskDTO task = taskService.findTaskById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskDTO> findTaskById(@PathVariable("id") Long id) {
+        TaskEntity foundTask = taskService.findTaskById(id);
+        TaskDTO response = taskMapper.fromTaskEntity(foundTask);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(task);
+        return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
 
     @PostMapping("/create")
@@ -42,16 +45,20 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<RegisterResponse> partialUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
-        var response = taskService.updateTask(id, request);
+    public ResponseEntity<UpdateTaskResponse> partialUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
+        TaskEntity updatedTask = taskService.partialUpdateTask(id, request);
+        UpdateTaskResponse response = new UpdateTaskResponse(updatedTask.getName());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RegisterResponse> fullUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
-        var response = taskService.updateTask(id, request);
+    public ResponseEntity<UpdateTaskResponse> fullUpdateTask(@Valid @PathVariable Long id, @RequestBody UpdateTaskRequest request) {
+        TaskEntity entity = taskMapper.fromUpdateTaskRequest(request);
+        TaskEntity fullUpdateTask = taskService.fullUpdateTask(id, entity);
+        UpdateTaskResponse response = new UpdateTaskResponse(fullUpdateTask.getName());
+
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
