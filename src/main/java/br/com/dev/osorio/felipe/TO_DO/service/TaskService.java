@@ -1,10 +1,10 @@
 package br.com.dev.osorio.felipe.TO_DO.service;
 
 import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
-import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateTaskRequest;
 import br.com.dev.osorio.felipe.TO_DO.entity.TaskEntity;
 import br.com.dev.osorio.felipe.TO_DO.mapper.TaskMapper;
 import br.com.dev.osorio.felipe.TO_DO.repository.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class TaskService {
         Optional<TaskEntity> task = taskRepository.findById(id);
 
         if (task.isEmpty()) {
-            throw new RuntimeException("Task not found");
+            throw new EntityNotFoundException("Task not found");
         }
 
         return task.get();
