@@ -2,9 +2,9 @@ package br.com.dev.osorio.felipe.TO_DO.controller;
 
 import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
 import br.com.dev.osorio.felipe.TO_DO.dto.request.RegisterRequest;
-import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateTaskRequest;
+import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateRequest;
 import br.com.dev.osorio.felipe.TO_DO.dto.response.RegisterResponse;
-import br.com.dev.osorio.felipe.TO_DO.dto.response.UpdateTaskResponse;
+import br.com.dev.osorio.felipe.TO_DO.dto.response.UpdateResponse;
 import br.com.dev.osorio.felipe.TO_DO.entity.TaskEntity;
 import br.com.dev.osorio.felipe.TO_DO.mapper.TaskMapper;
 import br.com.dev.osorio.felipe.TO_DO.service.TaskService;
@@ -45,19 +45,19 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UpdateTaskResponse> partialUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
+    public ResponseEntity<UpdateResponse> partialUpdateTask(@PathVariable Long id, @RequestBody TaskDTO request) {
         TaskEntity updatedTask = taskService.partialUpdateTask(id, request);
-        UpdateTaskResponse response = new UpdateTaskResponse(updatedTask.getName());
+        UpdateResponse response = new UpdateResponse(updatedTask.getName());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateTaskResponse> fullUpdateTask(@Valid @PathVariable Long id, @RequestBody UpdateTaskRequest request) {
+    public ResponseEntity<UpdateResponse> fullUpdateTask(@Valid @PathVariable Long id, @RequestBody UpdateRequest request) {
         TaskEntity entity = taskMapper.fromUpdateTaskRequest(request);
         TaskEntity fullUpdateTask = taskService.fullUpdateTask(id, entity);
-        UpdateTaskResponse response = new UpdateTaskResponse(fullUpdateTask.getName());
+        UpdateResponse response = new UpdateResponse(fullUpdateTask.getName());
 
 
         return ResponseEntity.status(HttpStatus.OK)

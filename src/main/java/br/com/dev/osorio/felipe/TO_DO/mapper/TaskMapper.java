@@ -2,7 +2,7 @@ package br.com.dev.osorio.felipe.TO_DO.mapper;
 
 import br.com.dev.osorio.felipe.TO_DO.dto.TaskDTO;
 import br.com.dev.osorio.felipe.TO_DO.dto.request.RegisterRequest;
-import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateTaskRequest;
+import br.com.dev.osorio.felipe.TO_DO.dto.request.UpdateRequest;
 import br.com.dev.osorio.felipe.TO_DO.entity.TaskEntity;
 import org.mapstruct.*;
 
@@ -13,7 +13,7 @@ public interface TaskMapper {
     TaskEntity fromRegisterRequest(RegisterRequest request);
 
     @Mapping(target = "id", ignore = true)
-    TaskEntity fromUpdateTaskRequest(UpdateTaskRequest request);
+    TaskEntity fromUpdateTaskRequest(UpdateRequest request);
 
     TaskEntity fromTaskDTO(TaskDTO request);
 

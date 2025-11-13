@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
-public record UpdateTaskRequest(
+public record UpdateRequest(
         Long id,
         @NotBlank(message = "Nome Obrigatório!!") String name,
         @NotBlank(message = "Descrição Obrigatória!!") String description,
