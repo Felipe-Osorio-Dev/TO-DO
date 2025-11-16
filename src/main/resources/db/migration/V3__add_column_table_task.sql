@@ -1,0 +1,2 @@
+ALTER TABLE tb_task
+ADD COLUMN priority VARCHAR(20);
