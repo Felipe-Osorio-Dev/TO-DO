@@ -1,11 +1,10 @@
 package br.com.dev.osorio.felipe.TO_DO.entity;
 
+import br.com.dev.osorio.felipe.TO_DO.util.PriorityTask;
 import br.com.dev.osorio.felipe.TO_DO.util.StatusTask;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_task")
@@ -21,20 +20,22 @@ public class TaskEntity {
     private String name;
 
     private String description;
-    private LocalDate endTime;
 
     @Enumerated(EnumType.STRING)
     private StatusTask status;
 
+    @Enumerated(EnumType.STRING)
+    private PriorityTask priority;
+
     public TaskEntity() {
     }
 
-    public TaskEntity(Long id, String name, String description, LocalDate endTime, StatusTask status) {
+    public TaskEntity(Long id, String name, String description, StatusTask status, PriorityTask priority) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.endTime = endTime;
         this.status = status;
+        this.priority = priority;
     }
 
     public Long getId() {
@@ -61,19 +62,19 @@ public class TaskEntity {
         this.description = description;
     }
 
-    public LocalDate getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDate endTime) {
-        this.endTime = endTime;
-    }
-
     public StatusTask getStatus() {
         return status;
     }
 
     public void setStatus(StatusTask status) {
         this.status = status;
+    }
+
+    public PriorityTask getPriority() {
+        return priority;
+    }
+
+    public void setPriority(PriorityTask priority) {
+        this.priority = priority;
     }
 }
