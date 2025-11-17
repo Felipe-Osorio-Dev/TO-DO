@@ -1,12 +1,13 @@
 package br.com.dev.osorio.felipe.TO_DO.dto;
 
-import java.time.LocalDate;
+import br.com.dev.osorio.felipe.TO_DO.util.PriorityTask;
+import br.com.dev.osorio.felipe.TO_DO.util.StatusTask;
 
 public record TaskDTO(
         Long id,
         String name,
         String description,
-        LocalDate endTime,
-        String status
+        StatusTask status,
+        PriorityTask priority
 ) {
 }
