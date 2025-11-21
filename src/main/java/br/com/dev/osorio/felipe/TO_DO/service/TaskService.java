@@ -56,4 +56,14 @@ public class TaskService {
 
         return task.get();
     }
+
+    public TaskEntity findTaskByName(String name) {
+        Optional<TaskEntity> task = taskRepository.findByName(name);
+
+        if (task.isEmpty()) {
+            throw new EntityNotFoundException("Task not found");
+        }
+
+        return task.get();
+    }
 }
