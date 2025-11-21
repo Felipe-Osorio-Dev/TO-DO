@@ -25,13 +25,22 @@ public class TaskController {
         this.taskMapper = taskMapper;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<TaskDTO> findTaskById(@PathVariable("id") Long id) {
         TaskEntity foundTask = taskService.findTaskById(id);
         TaskDTO response = taskMapper.fromTaskEntity(foundTask);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
+
+    @GetMapping("/search/{name}")
+    public ResponseEntity<TaskDTO> findTaskByName(@PathVariable("name") String name) {
+        TaskEntity foundTask = taskService.findTaskByName(name);
+        TaskDTO response = taskMapper.fromTaskEntity(foundTask);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(response);
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<RegisterResponse> createTask(@Valid @RequestBody RegisterRequest request) {
